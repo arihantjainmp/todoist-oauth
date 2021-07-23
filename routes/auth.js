@@ -25,7 +25,6 @@ router.get('/', (req,res) => {
               })
               .then((response) => 
               {
-                //use let here later
                 accesstoken = response.data.access_token;
                 accesstoken = 'Bearer ' + accesstoken;
                 res.redirect('/auth/authsuccess')
