@@ -32,7 +32,6 @@ mongoose.connect(process.env.DB_CONNECTION,
 
 //ROUTES
 app.get('/', (req,res) => {
-    //res.send("We are on Home !");
     res.sendFile(path.join(__dirname, '/index.html'));
     });
 
