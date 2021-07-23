@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <form action="/sync/start" method="get" id="form1">
+  <meta charset="UTF-8">
+  <title>Todoist OAuth</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    .button {
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 35px;
+}
+    .center {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+    body { padding-top: 100px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="center">
+      <h1>Click The Button Below To Save Your Tasks To MongoDB...</h1>
+    </div>
+      <div class="center">
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <div class="button">
+      <button type="submit" form="form1" value="Submit">   SYNC  </button>
+    </div>
+    </div>
+    </div>
+  </div>
+
+</body>
+</html>
