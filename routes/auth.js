@@ -4,6 +4,7 @@ const axios = require('axios');
 const path = require('path');
 require('dotenv').config()
 
+//declare variables to be used across the route
 let code = "";
 let secretstring = [];
 
