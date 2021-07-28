@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <form action="/sync/start" method="get" id="form1">
   <meta charset="UTF-8">
   <title>Todoist OAuth</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -39,7 +38,15 @@
         <br><br>
         <br><br>
         <div class="button">
-      <button type="submit" form="form1" value="Submit">   SYNC  </button>
+      <button id="sync-button" href="/sync/start">   SYNC  </button>
+      <script>
+      let params = (new URL(document.location)).searchParams;
+      let token = "?authtokenid=" + params.get("authtokenid");
+      let redurl = "/sync/start" + token;
+      document.getElementById("sync-button").onclick = function() {
+      window.location.replace(redurl);
+  };
+      </script>
     </div>
     </div>
     </div>

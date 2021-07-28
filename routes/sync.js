@@ -2,10 +2,14 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const Userdata = require('./models/Userdata');
+const Accesstokensave = require('./models/Accesstoken');
+const mongoose = require('mongoose');
 require('dotenv').config()
 
 router.get('/start', (req,res) => {
-    token = accesstoken;
+    const returnData = Accesstokensave.findById(req.query.authtokenid)
+    returnData.then((response) => {
+      token = response.accesstoken;
     try{
       tasks = axios.get('https://api.todoist.com/rest/v1/tasks', 
     {
@@ -37,6 +41,7 @@ router.get('/start', (req,res) => {
     }catch(err){
         res.json({message: err});
     }
+  })
 });
 
 

@@ -1,6 +1,5 @@
 //Express server
 const express = require('express');
-const { userInfo } = require('os');
 const path = require('path');
 const session = require('express-session')
 const mongoose = require('mongoose');
@@ -8,8 +7,6 @@ require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT;
-
-let accesstoken = "";
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

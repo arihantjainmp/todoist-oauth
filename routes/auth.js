@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const path = require('path');
+const Accesstokensave = require('./models/Accesstoken');
 require('dotenv').config()
 
-let code = ""
-let secretstring = ""
+let secretstring = [];
 
 const clientid = process.env.CLIENT_ID;
 const clientsecret = process.env.CLIENT_SECRET;
@@ -13,11 +13,16 @@ const clientsecret = process.env.CLIENT_SECRET;
 //Routes
 router.get('/', (req,res) => {
     try{
+        let check = 0;
+        let index = 0;
         specialcode = req.query.code;
         let state = req.query.state;
-        if(secretstring == state)
+        while (index < secretstring.length && check==0) {
+        if(secretstring[index] == state)
         {
             //exchange code for access token
+            check = 1;
+            secretstring.splice(index, 1);
             axios.post('https://todoist.com/oauth/access_token', {
                 client_id: clientid,
                 client_secret: clientsecret,
@@ -25,28 +30,42 @@ router.get('/', (req,res) => {
               })
               .then((response) => 
               {
-                //use let here later
-                accesstoken = response.data.access_token;
+                let accesstoken = response.data.access_token;
                 accesstoken = 'Bearer ' + accesstoken;
-                res.redirect('/auth/authsuccess')
+                //teststart
+                try{
+                const accesstokensavedata = new Accesstokensave({
+                  accesstoken: accesstoken,
+                });
+                const savedToken =accesstokensavedata.save()
+                savedToken.then((response) => {
+                res.redirect('/auth/authsuccess?authtokenid=' + response.id);
+                })
+              }
+              catch (err){
+                  res.json({ message: err}); 
+              }
+                //teststop
               }, (error) => {
                 console.log(error);
                 res.send("Auth Unsuccesful ! :(");
               });
         }
-        else
-        {
-            res.send("Auth Unsuccessful ! Secret Tokens Do not Match !")
-        }
-    }catch(err){
+        index++;
+    }
+    if(check == 0 ){
+          res.send("Auth Unsuccessful ! Secret Tokens Do not Match !");
+    }
+  }catch(err){
         res.json({message: err});
     }
     });
 
 router.get('/login', (req,res) => {
-    secretstring = makestring(30);
+    let tempsecretstring = makestring(30);
     baseauthurl = "https://todoist.com/oauth/authorize"
-    userauthurl = baseauthurl + "?client_id=" + clientid + "&scope=data:read" + "&state=" + secretstring;
+    userauthurl = baseauthurl + "?client_id=" + clientid + "&scope=data:read" + "&state=" + tempsecretstring;
+    secretstring.push(tempsecretstring);
     res.redirect(userauthurl);
     });
 
